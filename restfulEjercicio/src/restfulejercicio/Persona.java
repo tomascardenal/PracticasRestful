@@ -1,48 +1,49 @@
-package restfulEjercicio;
+package restfulejercicio;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Persona {
-	private int id;
-	private String nombre;
-	private boolean casado;
-	private String sexo;
+	
+	private int Id;
+	private String Nombre;
+	private boolean Casado;
+	private String Sexo;
 	
 	public void setId(int id) {
-		this.id = id;
+		Id = id;
 	}
 	
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		Nombre = nombre;
 	}
 	
 	public void setCasado(boolean casado) {
-		this.casado = casado;
+		Casado = casado;
 	}
 	
 	public void setSexo(String sexo) {
-		this.sexo = sexo;
+		Sexo = sexo;
 	}
 	
-	@XmlAttribute
 	public int getId() {
-		return this.id;
+		return Id;
 	}
 	
-	@XmlAttribute
 	public String getNombre() {
-		return this.nombre;
+		return Nombre;
 	}
 	
-	@XmlAttribute
 	public boolean getCasado() {
-		return this.casado;
+		return Casado;
 	}
 	
-	@XmlAttribute
 	public String getSexo() {
-		return this.sexo;
+		return Sexo;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("ID: %d Nombre: %s Casado: %s Sexo: %s ", Id,Nombre,Casado,Sexo);
 	}
 }
