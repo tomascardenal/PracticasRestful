@@ -1,4 +1,4 @@
-package restfulejercicio;
+package restfulEjercicios;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
