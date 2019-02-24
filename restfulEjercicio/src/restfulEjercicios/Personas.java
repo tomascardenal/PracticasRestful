@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -42,7 +43,7 @@ public class Personas {
 	@GET
 	@Path("buscar/{query}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Persona> verQ(@DefaultValue("Juan")@QueryParam("query") String query) {
+	public ArrayList<Persona> verQ(@DefaultValue("Juan") @QueryParam("query") String query) {
 		ArrayList<Persona> coinciden = new ArrayList<>();
 		for (Persona p : personas) {
 			if (p.getNombre().equals(query)) {
@@ -66,21 +67,33 @@ public class Personas {
 		for (Persona p : nuevasPersonas) {
 			personas.add(p);
 		}
-		return Response.ok().build();
+		return Response.ok("Añadidas personas a la lista").build();
 	}
-	
+
+	/*
+	 * FORMULARIO UTILIZADO <html> <body> <form method="POST"
+	 * action="http://127.0.0.1:8080/restfulEjercicios/rest/personas"> <h2>Introduce
+	 * persona</h2> <label>Id: </label> <input type="number" name="id" /> <br/>
+	 * <br/> <label>Nombre: </label> <input type="text" name="nombre" /> <br/> <br/>
+	 * <label>Casado: </label> Si<input type="radio" name="casado"
+	 * value="true"/>No<input type="radio" name="casado" value="false"/> <br/> <br/>
+	 * <label>Sexo: </label> <input type="text" name="sexo"/> <br/> <br/> <input
+	 * type="submit" value="Enviar consulta" /> </form> </body> </html>
+	 */
+
 	@POST
 	@Path("form")
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response anadePersonas(@FormParam("id") int id, @FormParam("nombre") String nombre, @FormParam("casado") boolean casado, @FormParam("sexo") String sexo) {
+	public Response anadePersonas(@FormParam("id") int id, @FormParam("nombre") String nombre,
+			@FormParam("casado") boolean casado, @FormParam("sexo") String sexo) {
 		Persona p = new Persona();
 		p.setId(id);
 		p.setNombre(nombre);
 		p.setCasado(casado);
 		p.setSexo(sexo);
 		personas.add(p);
-		return Response.ok(p).build();
+		return Response.ok("Añadida persona").build();
 	}
 
 	@GET
@@ -101,5 +114,28 @@ public class Personas {
 		}
 		return "Se han borrado " + cont + " personas";
 	}
+
+	@GET
+	@Path("XML/{id}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response personaXML(@PathParam("id") String id) {
+		Persona coincide = null;
+		try {
+			int idInt = Integer.parseInt(id);
+			for (Persona p : personas) {
+				if (p.getId() == idInt) {
+					coincide = p;
+				}
+			}
+		} catch (NumberFormatException e) {
+			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+		}
+		if(coincide == null) {
+			return Response.noContent().build();
+		}
+		return Response.ok(coincide).build();
+	}
+	
+	
 
 }

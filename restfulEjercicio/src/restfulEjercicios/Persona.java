@@ -1,5 +1,6 @@
 package restfulEjercicios;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -9,6 +10,7 @@ public class Persona {
 	private String Nombre;
 	private boolean Casado;
 	private String Sexo;
+	
 	
 	public void setId(int id) {
 		Id = id;
@@ -26,6 +28,7 @@ public class Persona {
 		Sexo = sexo;
 	}
 	
+	@XmlAttribute
 	public int getId() {
 		return Id;
 	}
