@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -66,6 +67,20 @@ public class Personas {
 			personas.add(p);
 		}
 		return Response.ok().build();
+	}
+	
+	@POST
+	@Path("form")
+	@Consumes("application/x-www-form-urlencoded")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response anadePersonas(@FormParam("id") int id, @FormParam("nombre") String nombre, @FormParam("casado") boolean casado, @FormParam("sexo") String sexo) {
+		Persona p = new Persona();
+		p.setId(id);
+		p.setNombre(nombre);
+		p.setCasado(casado);
+		p.setSexo(sexo);
+		personas.add(p);
+		return Response.ok(p).build();
 	}
 
 	@GET
